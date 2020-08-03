@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ContactForm from "./ContactForm/ContactForm";
+import ContactList from "./ContactList/ContactList";
+import Filter from "./Filter/Filter";
 
 export default class App extends Component {
   state = {
@@ -9,26 +11,62 @@ export default class App extends Component {
       { id: "id-3", name: "Eden Clements", number: "645-17-79" },
       { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
     ],
+    filter: "",
   };
 
   addContact = (contact) => {
+    const chechedName = contact.name;
+    const avaibleNames = this.state.contacts.map((contact) =>
+      contact.name.toLowerCase()
+    );
+
+    if (avaibleNames.includes(chechedName.toLowerCase())) {
+      alert(`${chechedName} is already in contacts`);
+    } else
+      this.setState({
+        contacts: [...this.state.contacts, contact],
+      });
+  };
+
+  handleSearchInput = (event) => {
+    event.preventDefault();
     this.setState({
-      contacts: [...this.state.contacts, contact],
+      filter: event.target.value,
     });
   };
 
+  contactFilter = () => {
+    const { contacts, filter } = this.state;
+    return filter
+      ? contacts.filter((contact) =>
+          contact.name.toLowerCase().includes(filter.toLowerCase())
+        )
+      : contacts;
+  };
+
+  handleDelete = (event) => {
+    const id = event.target.id;
+    this.setState({
+      contacts: this.state.contacts.filter((contact) => contact.id !== id),
+    });
+  };
   render() {
+    const filteredNames = this.contactFilter();
     return (
       <>
         <ContactForm onSubmit={this.addContact}></ContactForm>
         <h2>Contact</h2>
-        <ul>
-          {this.state.contacts.map((item) => (
-            <li key={item.id}>
-              {item.name} : {item.number}{" "}
-            </li>
-          ))}
-        </ul>
+        {this.state.contacts.length === 0 ? (
+          <p>Contacts list is empty!!!</p>
+        ) : (
+          <>
+            <Filter onFilter={this.handleSearchInput}></Filter>
+            <ContactList
+              contacts={filteredNames}
+              onDelete={this.handleDelete}
+            ></ContactList>
+          </>
+        )}
       </>
     );
   }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styles from "./contactform.module.css";
 
 const shortId = require("shortid");
 
@@ -35,10 +36,10 @@ export default class App extends Component {
 
   render() {
     return (
-      <>
+      <div>
         <h1>Phonebook</h1>
 
-        <form onSubmit={this.handleSubmit}>
+        <form className={styles.border} onSubmit={this.handleSubmit}>
           <h3>Name</h3>
           <input
             type="text"
@@ -55,6 +56,7 @@ export default class App extends Component {
           ></input>
           <br />
           <button
+            className={styles.button}
             type="submit"
             disabled={
               this.state.name === "" || this.state.number === "" ? true : false
@@ -64,7 +66,7 @@ export default class App extends Component {
             Add contact
           </button>
         </form>
-      </>
+      </div>
     );
   }
 }

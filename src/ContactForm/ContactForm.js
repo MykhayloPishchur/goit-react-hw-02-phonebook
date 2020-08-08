@@ -3,7 +3,7 @@ import styles from "./contactform.module.css";
 
 const shortId = require("shortid");
 
-export default class App extends Component {
+export default class ContactForm extends Component {
   state = {
     name: "",
     number: "",

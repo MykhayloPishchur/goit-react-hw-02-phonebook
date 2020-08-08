@@ -1,5 +1,5 @@
 import React from "react";
-// import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 const Filter = ({ onFilter }) => (
   <>
@@ -9,3 +9,7 @@ const Filter = ({ onFilter }) => (
 );
 
 export default Filter;
+
+Filter.propTypes = {
+  onFilter: PropTypes.func.isRequired,
+};

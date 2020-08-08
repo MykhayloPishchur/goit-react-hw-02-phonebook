@@ -44,6 +44,21 @@ export default class App extends Component {
       : contacts;
   };
 
+  componentDidUpdate(prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+    }
+  }
+
+  componentDidMount() {
+    const actualContacts = localStorage.getItem("contacts");
+    if (actualContacts) {
+      const contacts = JSON.parse(actualContacts);
+      this.setState({ contacts });
+    }
+  }
+
   handleDelete = (event) => {
     const id = event.target.id;
     this.setState({
